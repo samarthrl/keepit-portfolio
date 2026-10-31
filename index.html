@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KEEPIT — A Place for the Things You Keep | SAI SAMARTH RL · FLOWVIX STUDIO</title>
+<meta name="description" content="KEEPIT is a mobile app for saving notes, photos, voice recordings, PDFs and places in one place. Product showcase and case study by Sai Samarth RL, Flowvix Studio.">
+<link rel="icon" href="assets/keepit-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F4F0E7;--white:#fff;--ink:#222222;--purple:#6246E5;--purple-d:#4931bd;--lav:#E9E3FF;
+  --muted:#6f6a75;--line:#e4ddcf;
+  --display:'Plus Jakarta Sans','Inter',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);overflow-x:hidden;max-width:100vw;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto}
+section{position:relative;padding:clamp(80px,11vw,150px) max(5vw,20px)}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--purple)}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.045em;line-height:1}
+h2{font-size:clamp(34px,6vw,72px);margin:14px 0 18px}
+.lead{font-size:clamp(16px,1.6vw,19px);line-height:1.7;color:var(--muted);max-width:680px}
+.head{margin-bottom:clamp(36px,5vw,64px)}
+
+/* progress + nav */
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#28c8ff,var(--purple),#a35bff);z-index:60}
+nav{position:fixed;z-index:50;top:16px;left:50%;transform:translateX(-50%);width:min(94%,860px);display:flex;justify-content:space-between;align-items:center;padding:10px 14px 10px 18px;background:#ffffffd9;border:1px solid #fff;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:60px;box-shadow:0 10px 40px #2a1f5a18}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;letter-spacing:-.04em;font-size:17px}
+.brand img{width:28px;height:28px;border-radius:9px;object-fit:cover}
+.brand span{color:var(--purple)}
+.links{display:flex;gap:4px}
+.links a{white-space:nowrap;text-decoration:none;font-size:11.5px;font-weight:700;letter-spacing:.1em;padding:10px 16px;border-radius:40px;transition:background .3s,color .3s}
+.links a:hover{background:var(--lav)}
+.links a.active{background:var(--ink);color:#fff}
+
+/* hero */
+.hero{position:relative;min-height:100vh;padding-top:120px;padding-bottom:80px;overflow:hidden;display:grid;align-items:center;background:radial-gradient(ellipse at 70% 40%,#fff 0,transparent 60%),var(--cream)}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:drift 14s ease-in-out infinite alternate;pointer-events:none}
+.b1{width:480px;height:480px;background:#b9a7ff;top:-80px;right:-60px}
+.b2{width:420px;height:420px;background:#8fe3ff;bottom:-120px;left:8%;animation-delay:-5s;opacity:.4}
+.b3{width:320px;height:320px;background:#d8c8ff;top:30%;left:-80px;animation-delay:-9s;opacity:.5}
+@keyframes drift{to{transform:translate(40px,-30px) scale(1.12)}}
+.hero-grid{position:relative;z-index:2;max-width:1220px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.appicon{width:92px;height:92px;border-radius:28px;overflow:hidden;box-shadow:0 26px 60px #6246e555,0 0 0 6px #ffffffaa;margin-bottom:28px;animation:bob 6s ease-in-out infinite}
+.appicon img{width:100%;height:100%;object-fit:cover}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}
+.hero h1{font-size:clamp(40px,5.4vw,80px);letter-spacing:-.055em;line-height:.96;margin:18px 0 22px}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line span{display:inline-block;transform:translateY(110%);animation:rise 1s var(--ease) forwards}
+.hero h1 .line:nth-child(2) span{animation-delay:.12s;color:var(--purple)}
+@keyframes rise{to{transform:none}}
+.tag{font-size:clamp(17px,2vw,22px);font-weight:600;margin-bottom:10px}
+.hero .lead{margin-bottom:34px}
+.fade-in{opacity:0;transform:translateY(20px);animation:fin .9s var(--ease) forwards}
+@keyframes fin{to{opacity:1;transform:none}}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 26px;border-radius:50px;font-weight:700;font-size:14px;text-decoration:none;border:0;transition:transform .3s var(--ease),box-shadow .3s}
+.btn:hover{transform:translateY(-3px)}
+.btn.primary{background:var(--purple);color:#fff;box-shadow:0 14px 34px #6246e55a}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 8px 24px #2a1f5a14}
+.hero-stage{position:relative;height:min(76vh,690px);display:grid;place-items:center;perspective:1600px}
+
+/* phone */
+.phone-3d{transform-style:preserve-3d;transition:transform .25s ease-out;will-change:transform}
+.phone{position:relative;width:var(--pw,290px);aspect-ratio:820/1600;padding:9px;border-radius:calc(var(--pw,290px)*.16);background:linear-gradient(145deg,#3a3747,#14131a);box-shadow:0 60px 90px -20px #2b1f6a66,0 30px 40px -10px #00000033,inset 0 0 0 2px #55506a}
+.phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:26%;height:3.2%;background:#0b0a10;border-radius:20px;z-index:6}
+.phone::after{content:"";position:absolute;right:-3px;top:22%;width:3px;height:12%;background:#4a455c;border-radius:0 3px 3px 0}
+.screen-box{position:relative;width:100%;height:100%;border-radius:calc(var(--pw,290px)*.125);overflow:hidden;background:#f7f6fa}
+.screen-box img.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.screen-box img.layer.off{opacity:0;transform:scale(1.04)}
+.glare{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(115deg,#ffffff30 0,transparent 38%,transparent 70%,#ffffff12 100%)}
+.hot{position:absolute;z-index:4;border:0;background:transparent;border-radius:14px;outline:none}
+.show-hot .hot{background:#6246e526;box-shadow:inset 0 0 0 2px #6246e5aa;animation:pulse 1.8s infinite}
+.hot:focus-visible{box-shadow:inset 0 0 0 3px var(--purple)}
+@keyframes pulse{50%{background:#6246e545}}
+.toast{position:absolute;left:10%;right:10%;bottom:12%;z-index:7;background:#222;color:#fff;font-size:11.5px;line-height:1.4;padding:10px 12px;border-radius:14px;text-align:center;opacity:0;transform:translateY(10px);transition:.35s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:none}
+.shadow-floor{position:absolute;bottom:2%;width:60%;height:30px;background:radial-gradient(ellipse,#2b1f6a55,transparent 70%);filter:blur(10px)}
+
+.float-card{position:absolute;width:var(--w,130px);border-radius:20px;background:#fff;padding:6px;box-shadow:0 30px 60px -10px #2b1f6a40;z-index:1}
+.float-card img{border-radius:15px;width:100%;height:auto}
+.fc1{--w:132px;left:-2%;top:10%;transform:rotate(-8deg)}
+.fc2{--w:122px;right:-4%;top:6%;transform:rotate(7deg)}
+.fc3{--w:128px;left:2%;bottom:6%;transform:rotate(6deg)}
+.fc4{--w:118px;right:0;bottom:12%;transform:rotate(-6deg)}
+.fc img{animation:none}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.2em;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:3}
+.scroll-hint i{width:1px;height:34px;background:linear-gradient(var(--purple),transparent);animation:sh 1.8s infinite}
+@keyframes sh{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* overview / tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tile{padding:34px;border-radius:30px;background:#fff;box-shadow:0 24px 60px #2a1f5a0d;transition:transform .5s var(--ease),box-shadow .5s}
+.tile:hover{transform:translateY(-8px);box-shadow:0 34px 70px #6246e51f}
+.tile .num{font-family:var(--display);font-weight:800;font-size:13px;color:var(--purple);letter-spacing:.1em}
+.tile h3{font-size:30px;margin:46px 0 12px}
+.tile p{color:var(--muted);line-height:1.65}
+.types{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:10px 16px 10px 10px;border-radius:40px;background:#fff;font-weight:700;font-size:13px;box-shadow:0 8px 20px #2a1f5a0d}
+.chip i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px}
+
+/* split sections */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,70px);align-items:center}
+.card-dark{background:var(--ink);color:#fff;border-radius:36px;padding:clamp(28px,4vw,56px)}
+.card-dark .lead{color:#c9c4d3}
+.card-dark .eyebrow{color:#b7a7ff}
+.card-light{background:#fff;border-radius:36px;padding:clamp(28px,4vw,56px);box-shadow:0 30px 70px #2a1f5a10}
+.card-light h3,.card-dark h3{font-size:clamp(26px,3.4vw,42px);margin:12px 0 16px}
+.ticks{list-style:none;margin-top:22px;display:grid;gap:12px}
+.ticks li{display:flex;gap:12px;line-height:1.55}
+.ticks li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:var(--lav);color:var(--purple);font-weight:800;font-size:12px;display:grid;place-items:center;margin-top:2px}
+.card-dark .ticks li{color:#d8d3e2}
+.card-dark .ticks li::before{background:#ffffff1a;color:#cfc2ff}
+
+/* demo */
+.demo{background:linear-gradient(180deg,var(--cream),#ebe5f7 50%,var(--cream));overflow:hidden}
+.demo-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(20px,4vw,60px);align-items:center}
+.demo-stage{perspective:1700px;padding:30px 10px}
+.panel h3{font-size:22px;margin-bottom:14px;letter-spacing:-.03em}
+.screen-list{display:grid;gap:8px}
+.screen-list button{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 14px;border-radius:16px;border:1px solid transparent;background:#ffffffa8;font-weight:600;font-size:14px;transition:.3s var(--ease)}
+.screen-list button small{margin-left:auto;color:var(--muted);font-weight:500}
+.screen-list button .dot{width:8px;height:8px;border-radius:50%;background:#cfc7e6;transition:.3s}
+.screen-list button:hover{background:#fff;transform:translateX(4px)}
+.screen-list button.on{background:#fff;border-color:var(--purple);box-shadow:0 10px 28px #6246e51f}
+.screen-list button.on .dot{background:var(--purple);transform:scale(1.4)}
+.tips{margin-top:20px;font-size:14px;line-height:1.65;color:var(--muted)}
+.tgl{margin-top:16px;display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:40px;border:0;background:var(--ink);color:#fff;font-weight:700;font-size:12.5px}
+.tgl.on{background:var(--purple)}
+.now{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.6vw,34px);letter-spacing:-.04em;margin-bottom:10px}
+.now-d{color:var(--muted);line-height:1.65;font-size:15px;min-height:74px}
+.demo-side-r{display:flex;flex-direction:column;gap:22px}
+.crumb{display:inline-block;padding:6px 12px;border-radius:20px;background:#fff;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--purple)}
+
+/* screens gallery */
+.screens{display:grid;gap:26px}
+.screen-card{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,4vw,56px);align-items:center;padding:clamp(18px,3.4vw,44px);background:#fff;border-radius:38px;box-shadow:0 30px 70px #2a1f5a10}
+.screen-card:nth-child(even) .shot{order:2}
+.shot{display:grid;place-items:center;padding:clamp(18px,3vw,38px);border-radius:28px;background:linear-gradient(145deg,#f2eefc,#e6e0f6);perspective:1200px;min-height:380px}
+.shot img{width:min(100%,340px);height:auto;border-radius:20px;box-shadow:0 34px 60px -14px #2b1f6a55,0 0 0 1px #00000010;transition:transform .5s var(--ease);transform:rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg))}
+.copy small{color:var(--purple);font-weight:800;letter-spacing:.16em;font-size:11px}
+.copy h3{font-size:clamp(28px,4vw,52px);margin:16px 0 14px}
+.copy p{color:var(--muted);line-height:1.7;font-size:16px}
+
+/* feature explorer */
+.explorer{display:grid;grid-template-columns:1fr auto;gap:clamp(24px,5vw,70px);align-items:center;background:#fff;border-radius:40px;padding:clamp(24px,4vw,56px);box-shadow:0 30px 80px #2a1f5a12}
+.ftabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.ftabs button{border:1px solid var(--line);background:var(--cream);padding:11px 18px;border-radius:40px;font-weight:700;font-size:13px;transition:.3s var(--ease)}
+.ftabs button:hover{transform:translateY(-2px)}
+.ftabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.fpane h3{font-size:clamp(30px,4vw,54px);margin-bottom:14px}
+.fpane p{color:var(--muted);line-height:1.7;font-size:16px;max-width:520px}
+.fpane .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.fpane .meta span{padding:8px 14px;border-radius:30px;background:var(--lav);font-size:12.5px;font-weight:700;color:var(--purple-d)}
+.fshot{perspective:1200px;padding:10px}
+
+/* feature grid */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fcell{padding:28px;border-radius:28px;background:#fff;box-shadow:0 20px 50px #2a1f5a0b;transition:transform .5s var(--ease),background .4s,color .4s;transform-style:preserve-3d}
+.fcell:hover{transform:translateY(-8px) rotateX(4deg);background:var(--ink);color:#fff}
+.fcell:hover p{color:#c9c4d3}
+.fcell i{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;font-style:normal;font-size:20px;margin-bottom:34px}
+.fcell strong{font-family:var(--display);font-size:20px;letter-spacing:-.03em}
+.fcell p{margin-top:8px;color:var(--muted);line-height:1.55;font-size:14.5px}
+
+/* design system */
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.sw{border-radius:24px;padding:20px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;font-size:13px;font-weight:700;transition:transform .4s var(--ease)}
+.sw:hover{transform:translateY(-6px) rotate(-1deg)}
+.sw small{display:block;font-weight:500;opacity:.75;margin-top:3px;font-family:ui-monospace,monospace}
+.cat-colors{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.cc{border-radius:22px;padding:18px;background:#fff;text-align:center;font-weight:700;font-size:13px}
+.cc i{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 12px;border-radius:50%;font-style:normal;font-size:22px}
+.type-spec{margin-top:16px;padding:30px;border-radius:28px;background:#fff;display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+.type-spec .aa{font-family:var(--display);font-size:90px;font-weight:800;letter-spacing:-.06em;line-height:1;color:var(--purple)}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s}
+.step{position:relative;padding:28px 24px;border-radius:28px;background:#fff;box-shadow:0 20px 50px #2a1f5a0b}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--display);font-weight:800;font-size:44px;color:var(--lav);display:block;margin-bottom:26px;letter-spacing:-.05em}
+.step b{font-family:var(--display);font-size:19px;letter-spacing:-.03em}
+.step p{margin-top:8px;color:var(--muted);line-height:1.55;font-size:14.5px}
+
+/* settings strip */
+.settings-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+.settings-list div{padding:14px 16px;border-radius:18px;background:var(--cream);font-size:14px;line-height:1.4}
+.settings-list b{display:block}
+.settings-list span{color:var(--muted);font-size:13px}
+
+/* brand */
+.brand-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
+.brand-card{border-radius:36px;overflow:hidden;display:grid;place-items:center;padding:clamp(26px,4vw,54px);min-height:340px}
+.brand-card.light{background:linear-gradient(145deg,#f6f2ff,#e4dcfa)}
+.brand-card.dark{background:#0d0d11;padding:0}
+.brand-card .icon{width:min(240px,60%);border-radius:22%;box-shadow:0 40px 80px -10px #6246e570;animation:bob 6s ease-in-out infinite}
+.brand-card.dark img{width:100%;height:100%;object-fit:contain}
+.brand-cap{margin-top:14px;color:var(--muted);font-size:14px}
+
+/* credits */
+.credits{position:relative;padding:clamp(80px,11vw,150px) max(5vw,20px);background:#222;color:#fff;text-align:center;overflow:hidden}
+.credits .blob{opacity:.25}
+.credits .eyebrow{color:#b7a7ff}
+.credits h2{font-size:clamp(44px,9vw,120px);letter-spacing:-.06em;margin:18px 0 12px;position:relative}
+.role{font-size:clamp(16px,2vw,22px);color:#d4cde4;font-weight:600;position:relative}
+.studio-logo{width:min(460px,90%);margin:36px auto 10px;border-radius:26px;box-shadow:0 0 90px #6246e555;position:relative}
+.fine{margin-top:34px;font-size:12.5px;color:#9a93a9;position:relative}
+.back-top{display:inline-block;margin-top:26px;color:#fff;font-weight:700;font-size:13px;text-decoration:none;padding:12px 22px;border:1px solid #ffffff44;border-radius:40px;position:relative;transition:.3s}
+.back-top:hover{background:#fff;color:#222}
+
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero .lead,.btns{margin-inline:auto;justify-content:center}
+  .appicon{margin-inline:auto}
+  .hero-stage{height:620px}
+  .demo-grid{grid-template-columns:1fr;justify-items:center}
+  .demo-side-r{width:100%}
+  .panel{width:100%;max-width:520px}
+  .explorer{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .fpane p{margin-inline:auto}.fpane .meta{justify-content:center}.ftabs{justify-content:center}
+  .fgrid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .swatches{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .links a{padding:9px 10px;font-size:10px;letter-spacing:.06em}
+  .brand b{display:none}
+  .tiles,.split,.brand-grid{grid-template-columns:1fr}
+  .screen-card{grid-template-columns:1fr}
+  .screen-card:nth-child(even) .shot{order:0}
+  .shot{min-height:300px}
+  .cat-colors{grid-template-columns:repeat(2,1fr)}
+  .type-spec{grid-template-columns:1fr}
+  .settings-list{grid-template-columns:1fr}
+  .fc1,.fc2,.fc3,.fc4{--w:92px}
+}
+@media(max-width:480px){.fgrid,.steps{grid-template-columns:1fr}.fc1{left:-6%}.fc2{right:-8%}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*{animation:none!important;transition-duration:.01s!important}
+  .reveal,.hero h1 .line span,.fade-in{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<nav aria-label="Primary">
+  <a class="brand" href="#top"><img src="assets/keepit-icon.png" alt="KEEPIT icon"><b>KEEP<span>IT</span></b></a>
+  <div class="links">
+    <a href="#case" data-s="case">CASE STUDY</a>
+    <a href="#features" data-s="features">FEATURES</a>
+    <a href="#credits" data-s="credits">CREDITS</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="appicon fade-in" style="animation-delay:.1s"><img src="assets/keepit-icon.png" alt="KEEPIT app icon"></div>
+      <div class="eyebrow fade-in" style="animation-delay:.2s">KEEPIT · Mobile app · Product showcase</div>
+      <h1><span class="line"><span>Everything worth keeping.</span></span><span class="line"><span>One place.</span></span></h1>
+      <p class="tag fade-in" style="animation-delay:.55s">Save it. Find it. Remember it.</p>
+      <p class="lead fade-in" style="animation-delay:.65s">KEEPIT brings your notes, photos, voice recordings, PDFs and places into one simple space. Explore the real app, then read how it was designed.</p>
+      <div class="btns fade-in" style="animation-delay:.8s">
+        <a class="btn primary" href="#demo">Explore KEEPIT <span>↓</span></a>
+        <a class="btn ghost" href="#case">View Case Study</a>
+      </div>
+    </div>
+    <div class="hero-stage" id="heroStage">
+      <div class="float-card fc1 fc" data-depth="26"><img src="assets/keeps-list.jpg" alt="Your Keeps screen"></div>
+      <div class="float-card fc2 fc" data-depth="-20"><img src="assets/voice.jpg" alt="Voice Keep screen"></div>
+      <div class="float-card fc3 fc" data-depth="34"><img src="assets/place.jpg" alt="Keep a Place screen"></div>
+      <div class="float-card fc4 fc" data-depth="-28"><img src="assets/search.jpg" alt="Search screen"></div>
+      <div class="phone-3d" id="heroPhone">
+        <div class="phone" style="--pw:clamp(230px,23vw,300px)">
+          <div class="screen-box" id="heroScreen">
+            <img class="layer" src="assets/home.jpg" alt="KEEPIT home screen">
+            <img class="layer off" src="assets/keep-something.jpg" alt="">
+            <div class="glare"></div>
+          </div>
+        </div>
+      </div>
+      <div class="shadow-floor"></div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL<i></i></div>
+</header>
+
+<!-- 01 OVERVIEW -->
+<section id="case">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">01 — Overview</div>
+      <h2>A place for the<br>things you keep.</h2>
+      <p class="lead">KEEPIT is a mobile app for saving what matters to you. This case study follows the product through its real screens, from creating an account to keeping a note, a voice recording, a PDF or a place.</p>
+    </div>
+    <div class="tiles">
+      <article class="tile reveal"><span class="num">CAPTURE</span><h3>Capture</h3><p>Save thoughts and important moments in different formats.</p></article>
+      <article class="tile reveal" style="--d:.1s"><span class="num">ORGANIZE</span><h3>Organize</h3><p>Keep saved content together in one personal collection.</p></article>
+      <article class="tile reveal" style="--d:.2s"><span class="num">FIND</span><h3>Find</h3><p>Search and return to the things you have saved.</p></article>
+    </div>
+    <div class="types reveal">
+      <span class="chip"><i style="background:#fde5d6">📷</i>Photos</span>
+      <span class="chip"><i style="background:#dff3e6">🎙</i>Voice</span>
+      <span class="chip"><i style="background:#e6e6fb">📝</i>Notes</span>
+      <span class="chip"><i style="background:#fde0e0">📄</i>PDFs</span>
+      <span class="chip"><i style="background:#ffe0e8">📍</i>Places</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PROBLEM / 03 SOLUTION -->
+<section style="padding-top:0">
+  <div class="wrap split">
+    <div class="card-dark reveal">
+      <div class="eyebrow">02 — The problem</div>
+      <h3>Useful things end up scattered.</h3>
+      <p class="lead">A thought in one place, a photo in another, a document somewhere else, a location you meant to remember. When the things you keep live in different apps, they are harder to find again.</p>
+    </div>
+    <div class="card-light reveal" style="--d:.12s">
+      <div class="eyebrow">03 — The solution</div>
+      <h3>One simple space to keep it all.</h3>
+      <p class="lead">KEEPIT gives every kind of keep a clear home. One quick action starts any capture, categories keep things tidy, and search brings them back.</p>
+      <ul class="ticks">
+        <li>One “Keep something” action for photo, voice, note, PDF or place</li>
+        <li>Categories such as Personal, Work, Study, Home, Documents and Ideas</li>
+        <li>A single list of everything you choose to remember</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 04 INTERACTIVE DEMO -->
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div class="head reveal" style="text-align:center">
+      <div class="eyebrow">04 — Try the app</div>
+      <h2>Explore KEEPIT yourself.</h2>
+      <p class="lead" style="margin-inline:auto">Tap the real screens. Use the tab bar, the Keep something button and the quick actions, or jump to any screen from the list. Turn on “Show tappable areas” to see what you can press.</p>
+    </div>
+    <div class="demo-grid">
+      <div class="panel reveal">
+        <h3>Screens</h3>
+        <div class="screen-list" id="screenList"></div>
+      </div>
+      <div class="demo-stage reveal" style="--d:.1s">
+        <div class="phone-3d" id="demoPhone">
+          <div class="phone" style="--pw:clamp(250px,26vw,320px)">
+            <div class="screen-box" id="demoScreen">
+              <img class="layer" id="dA" alt="KEEPIT app screen">
+              <img class="layer off" id="dB" alt="">
+              <div id="hotLayer"></div>
+              <div class="toast" id="toast"></div>
+              <div class="glare"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-side-r reveal" style="--d:.2s">
+        <div>
+          <span class="crumb" id="crumb">SCREEN 01</span>
+          <div class="now" id="nowT" style="margin-top:14px"></div>
+          <p class="now-d" id="nowD"></p>
+        </div>
+        <div>
+          <button class="tgl" id="hotToggle" aria-pressed="false">◎ Show tappable areas</button>
+          <p class="tips">The demo uses screenshots of the real KEEPIT app, so what you see is the actual interface. Screens that were not captured for this case study are marked when you tap them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 APP EXPERIENCE -->
+<section id="screens">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">05 — App experience</div>
+      <h2>From first sign-in<br>to your keeps.</h2>
+      <p class="lead">Every screen below is shown in full, uncropped. Move your cursor over a screen to tilt it.</p>
+    </div>
+    <div class="screens">
+      <article class="screen-card reveal"><div class="shot"><img src="assets/create-account.jpg" alt="KEEPIT create account screen"></div><div class="copy"><small>01 · CREATE ACCOUNT</small><h3>Start with your space.</h3><p>Create an account with a name, email and password, or continue with your phone, to begin saving and organizing personal content.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/login.jpg" alt="KEEPIT login screen"></div><div class="copy"><small>02 · LOGIN</small><h3>Welcome back.</h3><p>Sign in with email and password, or continue with phone. A “Forgot password?” option is one tap away.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/home.jpg" alt="KEEPIT home screen"></div><div class="copy"><small>03 · HOME</small><h3>A simple starting point.</h3><p>One bold “Keep something” button, quick Photo, Voice and Note shortcuts, and a “Coming up” area for dates from your keeps.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/keep-something.jpg" alt="KEEPIT quick actions sheet"></div><div class="copy"><small>04 · QUICK ACTIONS</small><h3>Keep something.</h3><p>“What do you want to keep?” Choose Photo, Voice, PDF, Note or Place, each with its own colour so you always know where you are.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/keeps-list.jpg" alt="KEEPIT Your Keeps list"></div><div class="copy"><small>05 · YOUR KEEPS</small><h3>Everything together.</h3><p>A running count of saved keeps, All keeps and Favorites filters, and a card for each keep with star, reminder and delete actions.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/edit-note.jpg" alt="KEEPIT edit note screen"></div><div class="copy"><small>06 · EDIT NOTE</small><h3>Capture the thought.</h3><p>Give a note a title, write the details and file it under a category: Personal, Work, Study, Home, Documents or Ideas.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/search.jpg" alt="KEEPIT search screen"></div><div class="copy"><small>07 · SEARCH</small><h3>Find what you kept.</h3><p>Search by title, category or content and bring saved keeps straight back.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/voice.jpg" alt="KEEPIT voice keep screen"></div><div class="copy"><small>08 · VOICE</small><h3>Save it in your voice.</h3><p>“Capture your voice.” Tap the microphone and start speaking, add a title, then pick a category such as Personal, Work, Study, Home, Ideas or Important.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/pdf.jpg" alt="KEEPIT PDF keep screen"></div><div class="copy"><small>09 · PDF</small><h3>Keep documents close.</h3><p>Choose an existing PDF and KEEPIT copies it into its own secure app storage so it stays available after you restart the app.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/place.jpg" alt="KEEPIT keep a place screen"></div><div class="copy"><small>10 · PLACE</small><h3>Save where you are.</h3><p>Keep a useful place now and find it again whenever you need it, with current location, place name, category and address.</p></div></article>
+      <article class="screen-card reveal"><div class="shot"><img src="assets/settings.jpg" alt="KEEPIT settings screen"></div><div class="copy"><small>11 · SETTINGS</small><h3>Your app, your controls.</h3><p>Profile, Notifications, Privacy, Backup, About and Logout, all in one clear list.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FEATURE EXPLORER -->
+<section id="features">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">06 — Features</div>
+      <h2>Keep more<br>than notes.</h2>
+      <p class="lead">Five ways to keep, one place to return to. Pick a format to explore.</p>
+    </div>
+    <div class="explorer reveal">
+      <div>
+        <div class="ftabs" id="ftabs"></div>
+        <div class="fpane" id="fpane"></div>
+      </div>
+      <div class="fshot"><div class="phone-3d" id="fPhone"><div class="phone" style="--pw:clamp(230px,24vw,290px)"><div class="screen-box"><img class="layer" id="fA" alt="KEEPIT feature screen"><img class="layer off" id="fB" alt=""><div class="glare"></div></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 FEATURE GRID -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">07 — What's inside</div>
+      <h2>Everything in the app.</h2>
+    </div>
+    <div class="fgrid">
+      <article class="fcell reveal"><i style="background:#e6e6fb">📝</i><strong>Notes</strong><p>Write and edit thoughts with a title and category.</p></article>
+      <article class="fcell reveal" style="--d:.05s"><i style="background:#fde5d6">📷</i><strong>Photos</strong><p>Keep visual moments from the quick action.</p></article>
+      <article class="fcell reveal" style="--d:.1s"><i style="background:#dff3e6">🎙</i><strong>Voice</strong><p>Record spoken reminders and file them.</p></article>
+      <article class="fcell reveal" style="--d:.15s"><i style="background:#fde0e0">📄</i><strong>PDFs</strong><p>Store documents inside the app.</p></article>
+      <article class="fcell reveal"><i style="background:#ffe0e8">📍</i><strong>Places</strong><p>Save locations with name, category and address.</p></article>
+      <article class="fcell reveal" style="--d:.05s"><i style="background:#e9e3ff">🔍</i><strong>Search</strong><p>Find keeps by title, category or content.</p></article>
+      <article class="fcell reveal" style="--d:.1s"><i style="background:#fff0c9">⭐</i><strong>Favorites &amp; reminders</strong><p>Star a keep or add a reminder from its card.</p></article>
+      <article class="fcell reveal" style="--d:.15s"><i style="background:#e3e8f0">⚙️</i><strong>Settings</strong><p>Profile, notifications, privacy and backup.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 08 ORGANIZE & FIND -->
+<section style="padding-top:0">
+  <div class="wrap split">
+    <div class="card-light reveal">
+      <div class="eyebrow">08 — Organize &amp; find</div>
+      <h3>Categories, favorites and search.</h3>
+      <p class="lead">Every keep carries a category, so Personal, Work, Study, Home, Documents and Ideas stay separate. Star the ones that matter, add a reminder, and search by title, category or content.</p>
+      <ul class="ticks">
+        <li>“Coming up” on Home shows dates attached to your keeps</li>
+        <li>All keeps and Favorites filters on the Keeps screen</li>
+        <li>Search across title, category and content</li>
+      </ul>
+    </div>
+    <div class="reveal" style="--d:.12s;display:grid;place-items:center;perspective:1200px">
+      <div class="shot" style="width:100%"><img src="assets/keeps-list.jpg" alt="KEEPIT Your Keeps list showing categories, star and reminder actions" style="width:min(100%,320px)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 SETTINGS & PRIVACY -->
+<section style="padding-top:0">
+  <div class="wrap split">
+    <div class="reveal" style="display:grid;place-items:center;perspective:1200px">
+      <div class="shot" style="width:100%"><img src="assets/settings.jpg" alt="KEEPIT settings screen" style="width:min(100%,320px)"></div>
+    </div>
+    <div class="card-dark reveal" style="--d:.12s">
+      <div class="eyebrow">09 — Settings</div>
+      <h3>Your app, your controls.</h3>
+      <p class="lead">Settings keeps the essentials simple and easy to reach.</p>
+      <div class="settings-list" style="color:#222">
+        <div><b>Profile</b><span>Your KEEPIT profile</span></div>
+        <div><b>Notifications</b><span>Manage reminders and alerts</span></div>
+        <div><b>Privacy</b><span>Control your data and privacy</span></div>
+        <div><b>Backup</b><span>Create and manage a local backup</span></div>
+        <div><b>About KEEPIT</b><span>Version 1.0 prototype</span></div>
+        <div><b>Logout</b><span>Sign out of this KEEPIT account</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 DESIGN SYSTEM -->
+<section>
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">10 — Design system</div>
+      <h2>Calm, rounded,<br>and colour-coded.</h2>
+      <p class="lead">A soft violet brand, generous rounded cards and one colour for each kind of keep, so the interface explains itself at a glance.</p>
+    </div>
+    <div class="swatches reveal">
+      <div class="sw" style="background:#F4F0E7">Cream<small>#F4F0E7</small></div>
+      <div class="sw" style="background:#fff;box-shadow:inset 0 0 0 1px #e8e2d6">White<small>#FFFFFF</small></div>
+      <div class="sw" style="background:#222;color:#fff">Charcoal<small>#222222</small></div>
+      <div class="sw" style="background:#6246E5;color:#fff">Purple<small>#6246E5</small></div>
+    </div>
+    <div class="cat-colors reveal">
+      <div class="cc"><i style="background:#fde5d6">📷</i>Photo</div>
+      <div class="cc"><i style="background:#dff3e6">🎙</i>Voice</div>
+      <div class="cc"><i style="background:#e6e6fb">📝</i>Note</div>
+      <div class="cc"><i style="background:#fde0e0">📄</i>PDF</div>
+      <div class="cc"><i style="background:#ffe0e8">📍</i>Place</div>
+    </div>
+    <div class="type-spec reveal"><div class="aa">Aa</div><div><b style="font-family:var(--display);font-size:22px;letter-spacing:-.03em">Bold, friendly type</b><p class="lead" style="margin-top:8px">Heavy headings for quick scanning, light supporting text for calm reading, and large touch targets with rounded corners throughout.</p></div></div>
+  </div>
+</section>
+
+<!-- 11 PROCESS -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">11 — Design process</div>
+      <h2>From idea<br>to working app.</h2>
+    </div>
+    <div class="steps">
+      <article class="step reveal"><b>Define</b><p>Decide what KEEPIT is for: keeping the things that matter in one place.</p></article>
+      <article class="step reveal" style="--d:.06s"><b>Structure</b><p>Map the journey from sign-in to home, capture, list and search.</p></article>
+      <article class="step reveal" style="--d:.12s"><b>Design</b><p>Shape the screens in Figma with a soft violet brand and colour-coded keeps.</p></article>
+      <article class="step reveal" style="--d:.18s"><b>Build</b><p>Bring the screens to life as a working Flutter app.</p></article>
+      <article class="step reveal" style="--d:.24s"><b>Refine</b><p>Review the real screens and tune spacing, labels and flow.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 12 BRAND -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">12 — Branding</div>
+      <h2>The marks behind<br>the product.</h2>
+    </div>
+    <div class="brand-grid">
+      <div class="brand-card light reveal"><img class="icon" src="assets/keepit-icon.png" alt="KEEPIT app icon"></div>
+      <div class="brand-card dark reveal" style="--d:.1s"><img src="assets/flowvix-logo.jpg" alt="FLOWVIX STUDIO logo"></div>
+    </div>
+    <div class="brand-grid" style="margin-top:0">
+      <p class="brand-cap">KEEPIT app icon</p><p class="brand-cap">FLOWVIX STUDIO</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 CREDITS -->
+<footer class="credits" id="credits">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">13 — Credits</div>
+    <h2 class="reveal">SAI SAMARTH RL</h2>
+    <p class="role reveal">Founder &amp; UI/UX Designer</p>
+    <img class="studio-logo reveal" src="assets/flowvix-logo.jpg" alt="FLOWVIX STUDIO logo">
+    <p class="role reveal" style="letter-spacing:.3em;font-size:15px">FLOWVIX STUDIO</p>
+    <p class="fine">KEEPIT — A Place for the Things You Keep<br>© SAI SAMARTH RL · FLOWVIX STUDIO</p>
+    <a class="back-top" href="#top">↑ Back to top</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var $ = function(s,r){return (r||document).querySelector(s)};
+var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ---------- reveal ---------- */
+var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+$$('.reveal').forEach(function(el){io.observe(el)});
+
+/* ---------- progress + nav active + hero scroll ---------- */
+var prog=$('#progress'), heroPhone=$('#heroPhone'), floats=$$('.float-card');
+var heroMX=0, heroMY=0, ticking=false;
+function onScroll(){
+  var h=document.documentElement.scrollHeight-innerHeight;
+  prog.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';
+  if(!reduce && scrollY<innerHeight*1.2){
+    var p=scrollY/innerHeight;
+    heroPhone.style.transform='rotateY('+(-16+heroMX*10+p*40)+'deg) rotateX('+(6-heroMY*8+p*-10)+'deg) translateY('+(p*-60)+'px)';
+    floats.forEach(function(f){var d=+f.dataset.depth;f.style.translate='0 '+(-scrollY*d/300)+'px'});
+  }
+  ticking=false;
+}
+addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+onScroll();
+var hs=$('#heroStage');
+hs.addEventListener('pointermove',function(e){var r=hs.getBoundingClientRect();heroMX=(e.clientX-r.left)/r.width-.5;heroMY=(e.clientY-r.top)/r.height-.5;onScroll()});
+hs.addEventListener('pointerleave',function(){heroMX=0;heroMY=0;onScroll()});
+
+/* nav highlight */
+var navMap={case:['case','demo','screens'],features:['features'],credits:['credits']};
+var navLinks=$$('.links a');
+var secIO=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(!e.isIntersecting)return;
+  var id=e.target.id;
+  navLinks.forEach(function(a){a.classList.toggle('active',navMap[a.dataset.s].indexOf(id)>-1)});
+})},{threshold:.35});
+['case','demo','screens','features','credits'].forEach(function(id){secIO.observe(document.getElementById(id))});
+
+/* ---------- hero screen cycle ---------- */
+var heroImgs=$$('#heroScreen img.layer'), heroSeq=['home','keep-something','keeps-list','search','settings'], hi=0, top=0;
+setInterval(function(){
+  if(document.hidden||scrollY>innerHeight)return;
+  hi=(hi+1)%heroSeq.length;
+  var nxt=heroImgs[1-top], cur=heroImgs[top];
+  nxt.src='assets/'+heroSeq[hi]+'.jpg';
+  nxt.classList.remove('off');cur.classList.add('off');top=1-top;
+},3200);
+
+/* ---------- generic tilt ---------- */
+function tilt(wrap,target,max){
+  wrap.addEventListener('pointermove',function(e){
+    var r=wrap.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    target.style.setProperty('--ry',(x*max)+'deg');target.style.setProperty('--rx',(-y*max)+'deg');
+  });
+  wrap.addEventListener('pointerleave',function(){target.style.setProperty('--ry','0deg');target.style.setProperty('--rx','0deg')});
+}
+$$('.shot').forEach(function(s){var i=$('img',s);if(i)tilt(s,i,12)});
+
+function phoneTilt(stage,phone,base){
+  if(reduce)return;
+  stage.addEventListener('pointermove',function(e){
+    var r=stage.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    phone.style.transform='rotateY('+(base+x*18)+'deg) rotateX('+(-y*12)+'deg)';
+  });
+  stage.addEventListener('pointerleave',function(){phone.style.transform='rotateY('+base+'deg) rotateX(0deg)'});
+  phone.style.transform='rotateY('+base+'deg)';
+}
+phoneTilt($('.demo-stage'),$('#demoPhone'),-8);
+phoneTilt($('.fshot'),$('#fPhone'),10);
+
+/* ---------- interactive demo ---------- */
+var TAB=function(){return [
+  {x:0,y:90.5,w:25,h:9.5,to:'home',l:'Home tab'},
+  {x:25,y:90.5,w:25,h:9.5,to:'search',l:'Search tab'},
+  {x:50,y:90.5,w:25,h:9.5,to:'keeps-list',l:'Keeps tab'},
+  {x:75,y:90.5,w:25,h:9.5,to:'settings',l:'Settings tab'}]};
+var BACK={x:1,y:1,w:13,h:6.5,to:'home',l:'Back'};
+var NOT='This screen is not included in the case study.';
+var S={
+ 'create-account':{t:'Create account',d:'Start with your name, email and password. Tap CREATE ACCOUNT to enter the app, or switch to Login.',h:[
+   {x:6,y:69.8,w:88,h:7.6,to:'home',l:'Create account'},
+   {x:6,y:83.8,w:88,h:7.6,toast:'Phone sign-in is shown for design; try email to enter the app.',l:'Continue with phone'},
+   {x:18,y:93.2,w:64,h:5.5,to:'login',l:'Already have an account? Login'}]},
+ 'login':{t:'Login',d:'Welcome back. Sign in with email and password, or continue with phone.',h:[
+   {x:6,y:60.6,w:88,h:7.6,to:'home',l:'Login'},
+   {x:25,y:70.5,w:50,h:4.4,toast:'Password reset is not shown in this case study.',l:'Forgot password'},
+   {x:6,y:82.2,w:88,h:7.6,toast:'Phone sign-in is shown for design; try Login.',l:'Continue with phone'},
+   {x:12,y:92.2,w:76,h:5,to:'create-account',l:'Create one'}]},
+ 'home':{t:'Home',d:'The main starting point. Tap KEEP SOMETHING, a quick Photo, Voice or Note shortcut, or a Coming up card.',h:[
+   {x:5.8,y:26.4,w:88.4,h:12.4,to:'keep-something',l:'Keep something'},
+   {x:5.8,y:41.5,w:27.5,h:12.2,to:'keep-something',l:'Photo'},
+   {x:35.5,y:41.5,w:27.5,h:12.2,to:'voice',l:'Voice'},
+   {x:65.5,y:41.5,w:27.5,h:12.2,to:'edit-note',l:'Note'},
+   {x:5.8,y:66,w:41.5,h:19.2,toast:'The Laptop warranty note is not shown in this case study.',l:'Warranty reminder'},
+   {x:52,y:66,w:42,h:19.2,to:'edit-note',l:"Mom's birthday"},
+   {x:74,y:59.2,w:21,h:4,to:'keeps-list',l:'See all'}].concat(TAB())},
+ 'keep-something':{t:'Keep something',d:'“What do you want to keep?” Pick Voice, PDF, Note or Place. Tap the dimmed area to close.',h:[
+   {x:0,y:0,w:100,h:58.5,to:'home',l:'Close'},
+   {x:5.8,y:72.8,w:42.5,h:14.2,toast:'The photo capture screen is not included in this case study.',l:'Photo'},
+   {x:51.6,y:72.8,w:42.5,h:14.2,to:'voice',l:'Voice'},
+   {x:5.8,y:88.4,w:27.4,h:11.6,to:'pdf',l:'PDF'},
+   {x:36.3,y:88.4,w:27.4,h:11.6,to:'edit-note',l:'Note'},
+   {x:66.8,y:88.4,w:27.4,h:11.6,to:'place',l:'Place'}]},
+ 'keeps-list':{t:'Your Keeps',d:'Everything you chose to remember. Tap the + to keep something new, or open Mom’s Birthday to edit it.',h:[
+   {x:82.5,y:5.2,w:12,h:5.6,to:'keep-something',l:'New keep'},
+   {x:5.8,y:38.8,w:88,h:15.4,toast:'The study plan note is not shown in this case study.',l:'Study plan'},
+   {x:5.8,y:55.8,w:88,h:15.4,to:'edit-note',l:"Mom's Birthday"},
+   {x:5.8,y:72.8,w:88,h:15.4,toast:'The Laptop warranty note is not shown in this case study.',l:'Laptop warranty'}].concat(TAB())},
+ 'edit-note':{t:'Edit note',d:'Edit a title and note, choose a category and update. Tap SAVE or UPDATE NOTE to return to Your Keeps.',h:[
+   BACK_TO('keeps-list'),
+   {x:80,y:1.5,w:17,h:5.2,to:'keeps-list',l:'Save'},
+   {x:5.7,y:86.3,w:88.6,h:7.8,to:'keeps-list',l:'Update note'}]},
+ 'search':{t:'Search',d:'Find anything you have kept by title, category or content. Tap Mom’s Birthday to open it.',h:[
+   {x:5.8,y:47.4,w:88,h:15.6,to:'edit-note',l:"Mom's Birthday"}].concat(TAB())},
+ 'voice':{t:'Voice Keep',d:'Capture your voice. Tap the microphone, add a title and pick a category.',h:[
+   BACK,
+   {x:35,y:33,w:30,h:15,toast:'Recording runs on the phone; it is not shown in this case study.',l:'Record'}]},
+ 'pdf':{t:'Keep a PDF',d:'Choose an existing PDF; KEEPIT copies it into its own secure app storage so it stays available after a restart.',h:[
+   BACK,
+   {x:11.8,y:36.6,w:76.4,h:6.4,toast:'The file picker opens on the phone.',l:'Choose existing PDF'}]},
+ 'place':{t:'Keep a Place',d:'Save where you are: current location, place name, category and address.',h:[BACK]},
+ 'settings':{t:'Settings',d:'Profile, Notifications, Privacy, Backup, About and Logout. Tap Logout to return to sign-in.',h:[
+   {x:5.7,y:76.2,w:88.6,h:10.4,to:'login',l:'Logout'}].concat(TAB())}
+};
+function BACK_TO(to){return {x:1,y:1,w:13,h:6.5,to:to,l:'Back'}}
+
+var order=['create-account','login','home','keep-something','keeps-list','edit-note','search','voice','pdf','place','settings'];
+var imgs={a:$('#dA'),b:$('#dB')}, front='a', current=null, toastT;
+var hotLayer=$('#hotLayer'), toastEl=$('#toast'), list=$('#screenList');
+
+order.forEach(function(id,i){
+  var b=document.createElement('button');
+  b.dataset.id=id;
+  b.innerHTML='<span class="dot"></span>'+S[id].t+'<small>'+String(i+1).padStart(2,'0')+'</small>';
+  b.addEventListener('click',function(){go(id)});
+  list.appendChild(b);
+});
+
+function showToast(msg){
+  toastEl.textContent=msg;toastEl.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on')},2600);
+}
+function go(id){
+  if(id===current)return;
+  var inc=imgs[front==='a'?'b':'a'], out=imgs[front];
+  inc.src='assets/'+id+'.jpg';inc.alt='KEEPIT '+S[id].t+' screen';
+  inc.classList.remove('off');out.classList.add('off');front=front==='a'?'b':'a';
+  current=id;
+  hotLayer.innerHTML='';
+  S[id].h.forEach(function(h){
+    var el=document.createElement('button');
+    el.className='hot';el.setAttribute('aria-label',h.l);el.title=h.l;
+    el.style.cssText='left:'+h.x+'%;top:'+h.y+'%;width:'+h.w+'%;height:'+h.h+'%';
+    el.addEventListener('click',function(){h.to?go(h.to):showToast(h.toast||NOT)});
+    hotLayer.appendChild(el);
+  });
+  $$('button',list).forEach(function(b){b.classList.toggle('on',b.dataset.id===id)});
+  $('#crumb').textContent='SCREEN '+String(order.indexOf(id)+1).padStart(2,'0')+' / '+order.length;
+  $('#nowT').textContent=S[id].t;$('#nowD').textContent=S[id].d;
+  toastEl.classList.remove('on');
+}
+go('home');
+var hotBtn=$('#hotToggle'), box=$('#demoScreen');
+hotBtn.addEventListener('click',function(){
+  var on=box.classList.toggle('show-hot');
+  hotBtn.classList.toggle('on',on);hotBtn.setAttribute('aria-pressed',on);
+  hotBtn.textContent=on?'◉ Hide tappable areas':'◎ Show tappable areas';
+});
+
+/* ---------- feature explorer ---------- */
+var F=[
+ {k:'Notes',img:'edit-note',t:'Write it down.',d:'Give a note a title, write the details and file it under a category. Edit it any time with UPDATE NOTE.',m:['Title','Your note','Personal','Work','Study','Home','Documents','Ideas']},
+ {k:'Photos',img:'keep-something',t:'Keep a moment.',d:'Photo is the first choice in “What do you want to keep?” and sits as a quick shortcut on the Home screen.',m:['Quick action','Home shortcut']},
+ {k:'Voice',img:'voice',t:'Say it, save it.',d:'Tap the microphone and start speaking. Add a title, choose a category and save the voice note.',m:['Tap to record','Personal','Work','Study','Home','Ideas','Important']},
+ {k:'PDFs',img:'pdf',t:'Documents, kept.',d:'Choose an existing PDF and KEEPIT copies it into its own secure app storage so it stays available after you restart the app.',m:['Choose existing PDF','Title','Documents']},
+ {k:'Places',img:'place',t:'Save where you are.',d:'Keep a useful place now and find it again whenever you need it. Add a place name, a category and an address.',m:['Current location','Place name','Category','Address']}
+];
+var ft=$('#ftabs'), fp=$('#fpane'), fI={a:$('#fA'),b:$('#fB')}, ffront='a', fcur=-1;
+F.forEach(function(f,i){var b=document.createElement('button');b.textContent=f.k;b.addEventListener('click',function(){fsel(i)});ft.appendChild(b)});
+function fsel(i){
+  if(i===fcur)return;
+  var inc=fI[ffront==='a'?'b':'a'], out=fI[ffront];
+  inc.src='assets/'+F[i].img+'.jpg';inc.alt='KEEPIT '+F[i].k+' screen';inc.classList.remove('off');out.classList.add('off');ffront=ffront==='a'?'b':'a';
+  fcur=i;
+  $$('button',ft).forEach(function(b,j){b.classList.toggle('on',j===i)});
+  fp.innerHTML='<h3>'+F[i].t+'</h3><p>'+F[i].d+'</p><div class="meta">'+F[i].m.map(function(x){return '<span>'+x+'</span>'}).join('')+'</div>';
+}
+fsel(0);
+var fAuto=setInterval(function(){if(!document.hidden)fsel((fcur+1)%F.length)},6000);
+ft.addEventListener('click',function(){clearInterval(fAuto)});
+
+/* smooth anchor scrolling fallback (older browsers) */
+$$('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){
+  var t=document.querySelector(a.getAttribute('href'));
+  if(!t)return;e.preventDefault();
+  t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  history.replaceState(null,'',a.getAttribute('href'));
+})});
+})();
+</script>
+</body>
+</html>
